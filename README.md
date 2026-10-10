@@ -1,8 +1,8 @@
 # AlgoLabs: Linux terminal labs in your browser
 
-[Open AlgoLabs in Codespaces](https://codespaces.new/xDarkPhoneix/AlgoLabs?quickstart=1)
+**[▶ Open AlgoLabs in Codespaces](https://codespaces.new/xDarkPhoneix/AlgoLabs?quickstart=1)**
 
-Use the class Codespaces link from your instructor's email. Sign in with **your own GitHub account** and create or resume your own Codespace. One Codespace works for every lab. The labs run in its Linux terminal on Windows, Mac and Linux laptops.
+You do these labs in a Linux terminal that runs in your browser (a GitHub Codespace). From there you connect to the class **lab server**, where your work is graded. It works the same on Windows, Mac and Linux. You do not need to install anything on your laptop.
 
 ## Labs
 
@@ -11,74 +11,119 @@ Use the class Codespaces link from your instructor's email. Sign in with **your 
 | `lab4` | File permissions, SSH and remote file transfer | [labs/lab4/Experiment_Book_4_Draft.md](labs/lab4/Experiment_Book_4_Draft.md) |
 | `lab5` | Bash automation and terminal workflows | [labs/lab5/Lab_Book.md](labs/lab5/Lab_Book.md) |
 
-New labs appear in the `labs/` folder. If your Codespace already exists, get them with `git pull` at the repository root.
+---
 
-## Start
+## First time: set up (about 2 minutes)
 
-1. Download your personal access ZIP from your email (for example `Lab_4_studentNN_Access.zip`). Keep it zipped and private. The same ZIP works for every lab.
-2. In the Codespace Explorer, right-click the `.uploads` folder and choose **Upload**, or drag the ZIP into that folder. Upload only your own ZIP.
-3. Choose **Terminal > New Terminal**. At the repository root, run the start script with the lab you are doing:
+You need:
 
-```bash
-bash start_lab.sh lab5
+- your own GitHub account
+- your personal access ZIP from your instructor's email, for example `Lab_4_student07_Access.zip`. One ZIP works for **every** lab. Keep it private.
+
+Steps:
+
+1. **Open the Codespace.** Click the link at the top, sign in to GitHub and choose **Create codespace**. Wait until the editor and terminal appear.
+2. **Upload your ZIP.** In the file Explorer on the left, right-click the **`.uploads`** folder and choose **Upload…**, then pick your ZIP. Do **not** unzip it.
+3. **Start a lab.** In the terminal at the bottom (or **Terminal → New Terminal**), type the lab you are doing:
+
+   ```bash
+   bash start_lab.sh lab5
+   ```
+
+   If you leave out the lab name, it shows the list of labs and asks you to choose.
+4. **Roll number (Lab 4 only).** If asked, type the roll number registered with your instructor. It is asked only once.
+
+When setup finishes, the prompt changes to something like:
+
+```text
+[Lab 5 Codespace] vscode@codespaces-abc123:~$
 ```
 
-Without a lab name, it lists the labs and asks which one to open.
+This is your **lab terminal**. In it, `ssh`, `scp` and `check_lab` already know your account and key.
 
-4. If asked, enter your roll number. Only some labs ask for it, and only the first time.
-5. Open the lab's instructions (see the table above) and begin.
+---
 
-Setup installs your key outside the repository, sets private file permissions and prepares your lab folder. It opens a lab Bash terminal with SSH/SCP already configured. Your email attachment fixes your server account (for example `student03`). On the server, each lab has its own folder: `~/lab-work/lab4/`, `~/lab-work/lab5/` and so on.
+## Every time: do the lab
 
-Use `ssh lab-server` to connect. `exit` returns you to the Codespace; another `exit` closes the lab Bash session. To open a new session or switch labs, return to the repository root and run `bash start_lab.sh LAB` again. Saved work is kept.
-
-After setup succeeds, you may delete the uploaded ZIP from `.uploads`. Keep the email attachment: if you rebuild or create a new Codespace and private storage is missing, upload the same ZIP again. Uploads, connection profiles and generated work are excluded from Git. Do not add your key or ZIP to a commit or share it publicly.
-
-## Two machines
-
-- **Codespace / local terminal:** your starting Linux machine, opened in the browser. Files here belong to the Codespace, rather than your physical laptop.
-- **Lab server / server terminal:** the remote Linux machine after `ssh lab-server`.
-
-Use `hostname`, `whoami` and `pwd` to identify where you are. All commands in the lab instructions use Bash, regardless of your laptop's operating system. You do not need to install Python, SSH or PowerShell tools on your laptop.
-
-## Check your work
-
-In the lab Bash terminal, run:
+### Lab 5: all work is on the server
 
 ```bash
-check_lab
+bash start_lab.sh lab5      # open the lab terminal (from the repository root)
+ssh lab-server              # log in to the lab server
+cd ~/lab-work/lab5          # your Lab 5 folder: sample data and README.md are here
+check_lab lab5              # see your score at any time
 ```
 
-This checks the lab the terminal was opened for. You can also name a lab: `check_lab lab5`. The graded tests run only on the server; your score and each attempt are recorded for your instructor. Grading never changes your files. On the server itself, run `check_lab lab5` (or the lab you are doing).
+Follow [labs/lab5/Lab_Book.md](labs/lab5/Lab_Book.md). The same instructions are also in `README.md` in your server folder. Each part ends with a **✅ Check** box that tells you which evidence files to save.
 
-### Lab 4 notes
-
-Lab 4 uses both machines. The start script asks for your roll number and opens the terminal in `lab-work/lab4-YOUR-ROLL/`. Run `check_lab` from that folder: it first prints ungraded hints about your Codespace files, then asks the server to grade `~/lab-work/lab4`. Use the filenames in the booklet: `work/project.zip` or `work/project.tar.gz`, server folder `challenge-delivery`, and downloaded report `work/permissions-report.txt`.
-
-To submit the report from your physical laptop, find it under `lab-work/lab4-YOUR-ROLL/work/` in the Codespace Explorer, right-click it and choose **Download**. Submit through your normal class submission channel.
-
-### Lab 5 notes
-
-All Lab 5 work happens on the server. After `bash start_lab.sh lab5`, run:
+### Lab 4: you use both machines
 
 ```bash
-ssh lab-server
-cd ~/lab-work/lab5
+bash start_lab.sh lab4      # opens the lab terminal in lab-work/lab4-YOUR-ROLL/
 ```
 
-Your server folder already contains the `events/` sample data and a copy of the instructions (`README.md`).
+Follow [labs/lab4/Experiment_Book_4_Draft.md](labs/lab4/Experiment_Book_4_Draft.md). Some steps happen in the Codespace and some on the server (`ssh lab-server`, folder `~/lab-work/lab4`). Use the exact file names from the booklet: `work/project.zip` or `work/project.tar.gz`, the server folder `challenge-delivery`, and `work/permissions-report.txt`.
+
+Run `check_lab` from your Codespace Lab 4 folder. It first prints **hints** about your Codespace files (these are not graded), then the server grades your work.
+
+To submit the report file, find it under `lab-work/lab4-YOUR-ROLL/work/` in the Explorer, right-click it and choose **Download**.
+
+---
+
+## Know which machine you are on
+
+| | Codespace (your starting machine) | Lab server |
+|---|---|---|
+| How to get there | `bash start_lab.sh LAB` | `ssh lab-server` from the lab terminal |
+| Prompt starts with | `[Lab 5 Codespace]` | `studentNN@students-lab` |
+| Your lab folder | `lab-work/…` in the repository | `~/lab-work/lab4`, `~/lab-work/lab5`, … |
+| To leave | `exit` closes the lab terminal | `exit` takes you back to the Codespace |
+
+When unsure, run `hostname`, `whoami` and `pwd`.
+
+---
+
+## Check your score
+
+```bash
+check_lab           # checks the lab this terminal was opened for
+check_lab lab5      # or name the lab (works on the server too)
+```
+
+- Grading runs on the server, and the tests are hidden.
+- You can check as often as you like. Every attempt is recorded for your instructor.
+- Checking never changes your files.
+- Read the **FAIL** lines: each one names the ✅ Check it belongs to.
+
+---
+
+## Coming back later
+
+- **Same Codespace:** open it from [github.com/codespaces](https://github.com/codespaces), then run `bash start_lab.sh LAB` again. Your saved work is still there, on both machines.
+- **Switching labs:** run `exit` until you are back at the normal terminal, then `bash start_lab.sh` with the other lab.
+- **A new lab was announced:** run `git pull` in the repository root to get it.
+- **New or rebuilt Codespace:** upload the same ZIP from your email again. Your work on the server is kept.
+
+---
 
 ## If something goes wrong
 
-Check the machine you are using, your current directory and the exact error.
+| Problem | What to do |
+|---|---|
+| `No access ZIP found` | Upload your ZIP into `.uploads` (keep it zipped), then run the start command again. |
+| `More than one access ZIP` or `different access` | Keep only **your own** ZIP in `.uploads`. If you uploaded someone else's, ask your instructor. |
+| `Unknown lab` | Run `git pull` in the repository root, then try again. |
+| `Could not resolve hostname lab-server` or `check_lab: command not found` | You are not in the lab terminal. Run `bash start_lab.sh LAB` from the repository root. |
+| Connection lost / frozen terminal | Open a new terminal and run `bash start_lab.sh LAB`, then `ssh lab-server` again. Saved files are kept. |
+| `Host key verification failed` or `Permission denied (publickey)` | Do not change any SSH settings. Send the exact error to your instructor (**never** send your key or ZIP). |
+| A file already exists, or a check says "extra line" | Look at the file first (`cat FILE`). Appending (`>>`) twice adds lines twice. Recreate the file, then try again. |
+| Lab 4: "original file changed" | Keep your attempt and ask your instructor. Setup never restores changed files. |
 
-- **No access ZIP found:** upload your emailed access-only ZIP into `.uploads` and keep it zipped.
-- **More than one ZIP / different access:** keep only your own ZIP in `.uploads`. Setup preserves installed access and refuses to replace it with another account. Ask your instructor if you uploaded the wrong one.
-- **Unknown lab:** run `git pull` at the repository root to get new labs, then try again.
-- **Connection lost:** reconnect and return to your server lab folder. Saved server files remain there.
-- **Login or server identity error:** send the exact error to your instructor, without attaching your private key publicly. Keep host-key checking enabled.
-- **Original file changed:** keep the attempt and ask your instructor for help. Setup does not restore changed files.
-- **Output already exists:** inspect it and move it to an unused backup name before repeating the step. Extract archives into a new folder.
-- **Checker reports an extra line:** inspect the file before repeating an append command.
+---
 
-Use permission commands on your own lab files, without sudo. Stop your Codespace when finished to avoid using more compute time; keep it until you have downloaded and submitted your work.
+## Rules
+
+- Use only **your own** ZIP, account and roll number.
+- Never commit, share or post your ZIP or key. Uploads and keys are already kept out of Git.
+- Work only on your own lab files. Do not use `sudo`.
+- When you are done, **stop your Codespace** to save your free hours: [github.com/codespaces](https://github.com/codespaces) → **⋯** → **Stop codespace**. Keep it until you have submitted your work.
