@@ -78,44 +78,6 @@ But what happens when there are:
 
 Instead of repeating commands manually, we will build a **reusable Bash automation script**.
 
----
-
-# Lab Roadmap
-
-You will complete the lab in the following stages:
-
-```text
-Variables
-   ↓
-Quoting
-   ↓
-PATH
-   ↓
-Exit Status
-   ↓
-&& / ||
-   ↓
-stdout / stderr
-   ↓
-Redirection
-   ↓
-First Bash Script
-   ↓
-Script Arguments
-   ↓
-Input Validation
-   ↓
-Arrays
-   ↓
-Loops
-   ↓
-Complete Automation Script
-   ↓
-Final Challenge
-```
-
----
-
 # Getting Started
 
 ## 1. Check Bash
@@ -1356,11 +1318,11 @@ Hints:
 - Make an incomplete event folder `draft-day` with an empty `notes.txt` and `budget.txt`. Leave out `registrations.txt` on purpose.
 - Run the failure cases first and the success case last, saving the error stream and the exit status of each run, as in Check 14:
 
-| Run | Error stream | Exit status |
-| --- | --- | --- |
-| no argument | `evidence/17-noarg.err` | `evidence/17-noarg.status` |
-| `draft-day` | `evidence/17-draft.err` | `evidence/17-draft.status` |
-| `campus-day` | (leave on screen) | `evidence/17-ok.status` |
+| Run          | Error stream            | Exit status                |
+| ------------ | ----------------------- | -------------------------- |
+| no argument  | `evidence/17-noarg.err` | `evidence/17-noarg.status` |
+| `draft-day`  | `evidence/17-draft.err` | `evidence/17-draft.status` |
+| `campus-day` | (leave on screen)       | `evidence/17-ok.status`    |
 
 - Finally, snapshot `report.sh` and `handover.txt` as `evidence/17-report.sh` and `evidence/17-handover.txt`.
 
@@ -1721,14 +1683,14 @@ Hints:
 - Create the folder `evidence/challenge`, and start from a clean log (remove any old `errors.log`).
 - Run every test case **in this order**. For each one, send the error stream to `tN.err` and save the exit status in `tN.status`, all inside `evidence/challenge/`. After tests 1 and 2, copy `handover.txt` to `tN-handover.txt` before the next run overwrites it.
 
-| Test | Argument | Save |
-| --- | --- | --- |
-| t1 | `events/campus-day` | `t1.err`, `t1.status`, `t1-handover.txt` |
-| t2 | `events/sports-day` | `t2.err`, `t2.status`, `t2-handover.txt` |
-| t3 | no argument | `t3.err`, `t3.status` |
-| t4 | `events/missing-event` | `t4.err`, `t4.status` |
-| t5 | `events/incomplete-event` | `t5.err`, `t5.status` |
-| t6 | `events/tech-fest` | `t6.status` only (leave errors on screen) |
+| Test | Argument                  | Save                                      |
+| ---- | ------------------------- | ----------------------------------------- |
+| t1   | `events/campus-day`       | `t1.err`, `t1.status`, `t1-handover.txt`  |
+| t2   | `events/sports-day`       | `t2.err`, `t2.status`, `t2-handover.txt`  |
+| t3   | no argument               | `t3.err`, `t3.status`                     |
+| t4   | `events/missing-event`    | `t4.err`, `t4.status`                     |
+| t5   | `events/incomplete-event` | `t5.err`, `t5.status`                     |
+| t6   | `events/tech-fest`        | `t6.status` only (leave errors on screen) |
 
 - The last run leaves `handover.txt` for `tech-fest` in your lab folder. Leave it there.
 
