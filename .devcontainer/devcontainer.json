@@ -1,5 +1,5 @@
 {
-  "name": "Lab 4 - File permissions and SSH",
+  "name": "AlgoLabs - Linux terminal labs",
   "build": {"dockerfile": "Dockerfile", "context": ".."},
   "remoteUser": "vscode",
   "containerEnv": {"SHELL": "/bin/bash"},

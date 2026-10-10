@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""check_lab: ungraded hints on Codespace files, then official grading on the lab server.
+"""Lab 4 Codespace hooks: roll-number folders on both machines, plus ungraded
+local hints about Codespace files, which the server cannot see.
 
 The graded tests run on the server (`check_lab lab4` there) and are not part of
-this repository. The hints below only look at files that exist in the Codespace,
-which the server cannot see; they never change the score."""
-import argparse
+this repository. The hints never change the score."""
 import hashlib
 import io
 import os
@@ -12,9 +11,9 @@ from pathlib import Path
 import re
 import stat
 import subprocess
-import sys
 import tarfile
 import zipfile
+import common
 import setup
 
 UPLOAD = b'Prepared in my starting terminal\n'
@@ -22,6 +21,28 @@ EDITED = UPLOAD + b'Edited on the server\n'
 UPLOAD_WINDOWS = UPLOAD.replace(b'\n', b'\r\n')
 EDITED_WINDOWS = UPLOAD_WINDOWS + b'Edited on the server\n'
 LIMIT = 256 * 1024
+
+
+def prepare_server(lab_id, config):
+    """Prepare only this student's Lab 4 server folder through the SSH profile."""
+    if not setup.valid_id(lab_id):
+        raise ValueError('Invalid lab ID')
+    source = (Path(__file__).resolve().parent / 'setup.py').read_text(encoding='utf-8')
+    payload = f'import sys\nsys.argv = ["setup.py", "--side", "server", "--id", {lab_id!r}]\n' + source
+    result = subprocess.run(common.ssh_command(config) + ['python3 -B -'], input=payload,
+                            text=True, encoding='utf-8', capture_output=True, timeout=45)
+    if result.returncode:
+        raise ValueError(result.stderr.strip() or result.stdout.strip() or 'Server setup failed')
+    return result.stdout
+
+
+def prepare(root, ask_roll, config, remote_prepare=prepare_server):
+    roll_number = ask_roll()
+    local, created = setup.create(roll_number, 'local', Path(root) / 'lab-work')
+    remote_prepare(roll_number, config)
+    print('Your starting terminal and server folders are ready.' if created
+          else 'Your existing attempt is ready. Saved work was kept.')
+    return local
 
 
 def read(root, name):
@@ -92,7 +113,6 @@ def originals_ok(root, lab_id, side):
     return all(read(root, name) == data for name, data in setup.originals(lab_id, side).items())
 
 
-
 def available_archives(folder):
     return [(name, kind) for name, kind in [('project.zip', 'zip'), ('project.tar.gz', 'tar')]
             if (folder / name).exists() or (folder / name).is_symlink()]
@@ -122,11 +142,6 @@ def evaluate_local(root, lab_id, evidence):
     return results
 
 
-def ssh_command(config):
-    return ['ssh', '-F', str(Path(config).resolve()), '-o', 'BatchMode=yes',
-            '-o', 'ConnectTimeout=12', 'lab-server']
-
-
 EVIDENCE = ('work/upload.txt', 'challenge-delivery/permissions-report.txt',
             'challenge-delivery/project.zip', 'challenge-delivery/project.tar.gz')
 
@@ -134,7 +149,7 @@ EVIDENCE = ('work/upload.txt', 'challenge-delivery/permissions-report.txt',
 def fetch_evidence(config):
     """SHA-256 of the student's own server copies, to compare with local copies."""
     command = 'cd ~/lab-work/lab4 2>/dev/null && sha256sum -- ' + ' '.join(EVIDENCE) + ' 2>/dev/null; true'
-    process = subprocess.run(ssh_command(config) + [command], text=True, encoding='utf-8',
+    process = subprocess.run(common.ssh_command(config) + [command], text=True, encoding='utf-8',
                              capture_output=True, timeout=45)
     if process.returncode:
         raise ValueError('Could not reach the server: ' + process.stderr.strip())
@@ -156,27 +171,3 @@ def local_hints(root, config):
     for item in results:
         print(('  PASS: ' if item['ok'] else '  HINT: ') + item['label'])
     print()
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--root', type=Path, help='Local Lab 4 folder (default: current directory)')
-    parser.add_argument('--config', type=Path, default=Path(__file__).resolve().parent.parent / '.connection/ssh_config')
-    args = parser.parse_args()
-    try:
-        local_hints(args.root or Path.cwd(), args.config)
-    except (OSError, ValueError, subprocess.TimeoutExpired) as error:
-        print('Local hints skipped: ' + str(error) + '\n', file=sys.stderr)
-    print('Requesting official grading from the lab server...\n', flush=True)
-    try:
-        process = subprocess.run(ssh_command(args.config) + ['check_lab lab4'], timeout=120)
-    except subprocess.TimeoutExpired:
-        print('CHECK: the server did not answer in time. Try again.', file=sys.stderr)
-        return 2
-    if process.returncode == 255:
-        print('CHECK: could not connect to the lab server. Check your connection and try again.', file=sys.stderr)
-    return process.returncode
-
-
-if __name__ == '__main__':
-    sys.exit(main())

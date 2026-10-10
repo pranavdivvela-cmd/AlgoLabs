@@ -99,7 +99,7 @@ def main():
     args = parser.parse_args()
     lab_id = args.id or input('Enter your roll number: ').strip()
     base = args.base or (Path.home() / 'lab-work' if args.side == 'server'
-                         else Path(__file__).resolve().parent.parent / 'lab-work')
+                         else Path(__file__).resolve().parents[2] / 'lab-work')
     try:
         root, created = create(lab_id, args.side, base)
     except (ValueError, OSError) as error:

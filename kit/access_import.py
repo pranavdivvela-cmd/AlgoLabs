@@ -10,15 +10,15 @@ import stat
 import subprocess
 import tempfile
 import zipfile
-import setup
+import common
 
 ACCESS_FILES = {'account.json', 'ssh_key', 'known_hosts'}
 
 
 def read_archive(path):
-    path = setup.plain_path(path)
+    path = common.plain_path(path)
     if not path.is_file() or path.stat().st_size > 262144:
-        raise ValueError('Upload your individual Lab 4 access ZIP, not a class bundle.')
+        raise ValueError('Upload your individual access ZIP, not a class bundle.')
     try:
         with zipfile.ZipFile(path) as archive:
             names = archive.namelist()
@@ -26,7 +26,7 @@ def read_archive(path):
             if len(roots) != 1:
                 raise ValueError('Expected one account in the access ZIP.')
             prefix = next(iter(roots))
-            match = re.fullmatch(r'Lab_4_(student[0-9]{2,3})_Access', prefix)
+            match = re.fullmatch(r'Lab_[0-9]{1,3}_(student[0-9]{2,3})_Access', prefix)
             expected = {prefix + '/README.md'} | {prefix + '/access/' + name for name in ACCESS_FILES}
             if not match or len(names) != 4 or set(names) != expected:
                 raise ValueError('Use the access-only ZIP emailed by your instructor.')
@@ -66,33 +66,35 @@ def verify_key(key, public_key):
 
 
 def install(root, archive=None, home=None):
-    root = setup.plain_path(Path(root).resolve())
+    root = common.plain_path(Path(root).resolve())
     # Keep the private key outside the repository, with one immutable account
-    # per workspace. Rebuilding/restarting the container can reimport the ZIP.
+    # per workspace, shared by every lab (one server account per student).
+    # Rebuilding/restarting the container can reimport the ZIP. The folder name
+    # predates multi-lab support; keep it so existing Codespaces keep working.
     identity = hashlib.sha256(str(root).encode()).hexdigest()[:16]
     home = Path(home).resolve() if home is not None else Path.home().resolve()
-    parent = setup.plain_path(home / '.local/share/tensor-lab-4' / identity)
-    destination = setup.plain_path(parent / 'access')
+    parent = common.plain_path(home / '.local/share/tensor-lab-4' / identity)
+    destination = common.plain_path(parent / 'access')
     if archive is None:
-        candidates = list((root / '.uploads').glob('*.zip')) + list(root.glob('Lab_4_*_Access*.zip'))
+        candidates = list((root / '.uploads').glob('*.zip')) + list(root.glob('Lab_*_Access*.zip'))
         if len(candidates) > 1:
             raise ValueError('More than one access ZIP found. Keep only your own ZIP in .uploads.')
         archive = candidates[0] if candidates else None
     if archive is None:
         if destination.is_dir() and {p.name for p in destination.iterdir()} == ACCESS_FILES:
             for name in ACCESS_FILES:
-                setup.plain_path(destination / name)
+                common.plain_path(destination / name)
                 if not (destination / name).is_file():
                     raise ValueError('Stored access is incomplete. Upload your original ZIP again.')
             return destination
-        raise ValueError('Upload your emailed Lab_4_studentNN_Access.zip into .uploads, then run bash start_lab.sh.')
+        raise ValueError('Upload your emailed Lab_N_studentNN_Access.zip into .uploads, then run bash start_lab.sh.')
     account, data = read_archive(archive)
     parent.mkdir(parents=True, mode=0o700, exist_ok=True)
     if destination.exists():
         if not destination.is_dir() or {p.name for p in destination.iterdir()} != ACCESS_FILES:
             raise ValueError('Stored access is incomplete. Ask your instructor for help.')
         for name, body in data.items():
-            target = setup.plain_path(destination / name)
+            target = common.plain_path(destination / name)
             if not target.is_file() or target.read_bytes() != body:
                 raise ValueError('This Codespace already has different access. Use your own original ZIP.')
         verify_key(destination / 'ssh_key', account['public_key'])
