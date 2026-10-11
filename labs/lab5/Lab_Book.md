@@ -139,7 +139,7 @@ Important rules:
 - Create evidence files with commands (redirection, `cp`). Do not type or edit evidence files by hand.
 - If you redo a part, recreate **all** of its evidence files so nothing is appended twice. Hint: the first write to a file should replace it, later writes should add to it.
 
-### ✅ Check 0 — Getting started
+### Check 0 — Getting started
 
 Hints:
 
@@ -153,7 +153,7 @@ Hints:
 
 ---
 
-# Part 1 — Bash Variables
+# Experiment 1 — Bash Variables
 
 A Bash variable is a name that stores a value in the current shell.
 
@@ -177,7 +177,7 @@ variable="value"
 
 There must be **no spaces around `=`**.
 
-### Task 1
+### Task
 
 Create:
 
@@ -215,7 +215,7 @@ echo "$folder"
 2. What happens when you change the variable?
 3. Does changing the variable rename or create a directory?
 
-### ✅ Check 1 — Variables
+### Check 1 — Variables
 
 Hints:
 
@@ -229,7 +229,7 @@ Hints:
 
 ---
 
-# Part 2 — Using Variables in Commands
+# Experiment 2 — Using Variables in Commands
 
 Variables become useful when they are passed to commands.
 
@@ -237,7 +237,6 @@ Example:
 
 ```bash
 folder="campus-day"
-
 ls "$folder"
 ```
 
@@ -249,9 +248,7 @@ wc -l "$folder/registrations.txt"
 
 This allows the same commands to work with different folders.
 
-The lecture demonstrates this idea by changing the value of `folder` while keeping the commands unchanged.
-
-### Task 2
+### Task
 
 Create two event directories:
 
@@ -296,7 +293,7 @@ ls campus-day
 
 everywhere?
 
-### ✅ Check 2 — Variables in commands
+### Check 2 — Variables in commands
 
 Hints:
 
@@ -311,7 +308,7 @@ Hints:
 
 ---
 
-# Part 3 — Why Quoting Matters
+# Experiment 3 — Why Quoting Matters
 
 Consider a folder containing a space:
 
@@ -367,15 +364,12 @@ Single quotes:
 
 prevent variable expansion.
 
-The lecture specifically uses this example to demonstrate why quoting matters.
-
-### Task 3
+### Task
 
 For each command, predict the result **before running it**.
 
 ```bash
 folder="campus day"
-
 ls "$folder"
 ls $folder
 ls '$folder'
@@ -383,14 +377,14 @@ ls '$folder'
 
 Record your observations.
 
-### ✅ Check 3 — Quoting
+### Check 3 — Quoting
 
 Hints:
 
 - First create an empty file `agenda.txt` inside the `campus day` folder, so `ls` has something to show. The folder name has a space, so quote the path.
 - Set `folder` to the name with the space. Then run `ls` on the variable three ways: in double quotes, without quotes and in single quotes.
 - Save each run to its own file: `evidence/03-double-quotes.txt`, `evidence/03-no-quotes.txt` and `evidence/03-single-quotes.txt`.
-- Some of these runs fail. Capture **both** normal output and errors in each file (Part 11 shows how).
+- Some of these runs fail. Capture **both** normal output and errors in each file (Experiment 11 shows how).
 
 `check_lab` verifies:
 
@@ -401,7 +395,7 @@ Hints:
 
 ---
 
-# Part 4 — Understanding `$PATH`
+# Experiment 4 — Understanding `$PATH`
 
 Bash needs to know where executable commands are located.
 
@@ -439,8 +433,6 @@ command -v ls
 command -v grep
 ```
 
-The lecture uses `command -v` to demonstrate how Bash resolves command names.
-
 ---
 
 ## Task 4 — Create Your Own Command
@@ -461,7 +453,6 @@ Add:
 
 ```bash
 #!/usr/bin/env bash
-
 echo "Hello from my custom command!"
 ```
 
@@ -507,7 +498,7 @@ hello.sh
 
 work after modifying `PATH`?
 
-### ✅ Check 4 — PATH and your own command
+### Check 4 — PATH and your own command
 
 In the same terminal where you ran `export PATH=...`:
 
@@ -524,18 +515,18 @@ Hints:
 - `evidence/04-hello-path.txt` is exactly `/home/<your-account>/lab-work/lab5/bin/hello.sh`.
 - `evidence/04-hello-output.txt` is exactly `Hello from my custom command!`.
 
-> If `command -v hello.sh` prints nothing, your `PATH` change was lost (for example, you opened a new terminal). Run the `export` command again.
+> **Note:** If `command -v hello.sh` prints nothing, your `PATH` change was lost (for example, you opened a new terminal). Run the `export` command again.
 
 ---
 
-# Part 5 — Exit Status
+# Experiment 5 — Exit Status
 
 Every command returns a numeric exit status.
 
 Generally:
 
 ```text
-0       → success
+0 → success
 non-zero → another outcome/failure
 ```
 
@@ -592,7 +583,7 @@ echo "$?"
 
 What happened to the previous exit status after running another command?
 
-### ✅ Check 5 — Exit status
+### Check 5 — Exit status
 
 Save only the status numbers in `evidence/05-status.txt`, one per line, for these three commands in this order:
 
@@ -612,7 +603,7 @@ Hints:
 
 ---
 
-# Part 6 — `&&`
+# Experiment 6 — `&&`
 
 The `&&` operator runs the second command **only when the first command succeeds**.
 
@@ -626,17 +617,15 @@ Conceptually:
 
 ```text
 command succeeds?
-       |
-      yes
-       ↓
+  |
+  yes
+  ↓
 run next command
 ```
 
 If the first command fails, the second command does not execute.
 
-The lecture demonstrates this behavior using `mkdir` and `cp`.
-
-### Task 6
+### Task
 
 Try:
 
@@ -652,7 +641,7 @@ mkdir test && echo "Success"
 
 Observe what happens.
 
-### ✅ Check 6 — `&&`
+### Check 6 — `&&`
 
 Hints:
 
@@ -667,7 +656,7 @@ Hints:
 
 ---
 
-# Part 7 — `||`
+# Experiment 7 — `||`
 
 The `||` operator runs the second command when the first command returns a non-zero status.
 
@@ -681,13 +670,13 @@ Conceptually:
 
 ```text
 command succeeds?
-       |
-      no
-       ↓
+  |
+  no
+  ↓
 run fallback command
 ```
 
-### Task 7
+### Task
 
 Run:
 
@@ -705,7 +694,7 @@ cat /etc/hosts || echo "Could not read hosts file"
 
 Why does the second command execute in the first example but not necessarily the second?
 
-### ✅ Check 7 — `||`
+### Check 7 — `||`
 
 Hints:
 
@@ -719,7 +708,7 @@ Hints:
 
 ---
 
-# Part 8 — stdout and stderr
+# Experiment 8 — stdout and stderr
 
 Commands can produce two important types of output.
 
@@ -743,8 +732,6 @@ Stream number:
 2
 ```
 
-The lecture demonstrates this using a command that receives both an existing and a missing file.
-
 ---
 
 ## Task 8
@@ -765,9 +752,9 @@ Observe the output.
 
 Ask yourself:
 
-> Which output is normal output and which is an error?
+> *Which output is normal output and which is an error?*
 
-### ✅ Check 8 — stdout and stderr
+### Check 8 — stdout and stderr
 
 There is nothing extra to save here; Parts 9–11 capture these two streams into files.
 
@@ -778,7 +765,7 @@ There is nothing extra to save here; Parts 9–11 capture these two streams into
 
 ---
 
-# Part 9 — Redirect stdout
+# Experiment 9 — Redirect stdout
 
 Use:
 
@@ -806,9 +793,9 @@ listing.txt
 
 But what happened to the error?
 
-### ✅ Check 9 — Redirect stdout
+### Check 9 — Redirect stdout
 
-Hint: `listing.txt` is reused in Part 10, so copy it now to `evidence/09-listing.txt`.
+Hint: `listing.txt` is reused in Experiment 10, so copy it now to `evidence/09-listing.txt`.
 
 `check_lab` verifies:
 
@@ -816,7 +803,7 @@ Hint: `listing.txt` is reused in Part 10, so copy it now to `evidence/09-listing
 
 ---
 
-# Part 10 — Redirect stderr
+# Experiment 10 — Redirect stderr
 
 Use:
 
@@ -851,7 +838,7 @@ stderr → errors.txt
 
 This is an important technique for automation and logging.
 
-### ✅ Check 10 — Redirect stderr
+### Check 10 — Redirect stderr
 
 The files from the example are the evidence. Leave them in place.
 
@@ -863,7 +850,7 @@ The files from the example are the evidence. Leave them in place.
 
 ---
 
-# Part 11 — Combine stdout and stderr
+# Experiment 11 — Combine stdout and stderr
 
 Use:
 
@@ -897,7 +884,7 @@ The order matters:
 
 first redirects stdout, then sends stderr to stdout's current destination.
 
-### ✅ Check 11 — Combine stdout and stderr
+### Check 11 — Combine stdout and stderr
 
 Also try the **wrong** order, to see why the order matters.
 
@@ -913,7 +900,7 @@ Hints:
 
 ---
 
-# Part 12 — Your First Bash Script
+# Experiment 12 — Your First Bash Script
 
 Create:
 
@@ -933,7 +920,6 @@ Add:
 
 ```bash
 folder="campus-day"
-
 ls "$folder" > handover.txt
 wc -l "$folder/registrations.txt" >> handover.txt
 ```
@@ -956,9 +942,7 @@ Inspect:
 cat handover.txt
 ```
 
-The lecture introduces this as the first reusable shell script.
-
-### ✅ Check 12 — First script
+### Check 12 — First script
 
 Hint: you will change `report.sh` in the next parts. Snapshot `report.sh` and `handover.txt` now by copying them into `evidence/` as `12-report.sh` and `12-handover.txt`.
 
@@ -975,7 +959,7 @@ registrations.txt
 
 ---
 
-# Part 13 — Script Arguments
+# Experiment 13 — Script Arguments
 
 Hard-coding:
 
@@ -1011,9 +995,7 @@ The first argument supplied to the script is available through:
 $1
 ```
 
-The lecture demonstrates the same script with multiple event folders.
-
-### ✅ Check 13 — Script arguments
+### Check 13 — Script arguments
 
 Hints:
 
@@ -1032,7 +1014,7 @@ registrations.txt
 
 ---
 
-# Part 14 — Validate Input
+# Experiment 14 — Validate Input
 
 What happens if someone runs:
 
@@ -1052,24 +1034,22 @@ Use:
 
 ```bash
 if [ ! -d "$folder" ]; then
-    echo "Provide an existing event folder." >&2
-    exit 1
+  echo "Provide an existing event folder." >&2
+  exit 1
 fi
 ```
 
 Important concepts:
 
 ```text
--d     check whether something is a directory
-!      reverse the condition
->&2    send output to stderr
-exit 1 return a failure status
-fi     end the if block
+-d      check whether something is a directory
+!       reverse the condition
+>&2     send output to stderr
+exit 1  return a failure status
+fi      end the if block
 ```
 
-The lecture introduces this validation pattern explicitly.
-
-### ✅ Check 14 — Validate input
+### Check 14 — Validate input
 
 Add the `if` block to `report.sh`, right after `folder="$1"`. Then test both bad inputs.
 
@@ -1088,7 +1068,7 @@ Hints:
 
 ---
 
-# Part 15 — Arrays
+# Experiment 15 — Arrays
 
 Suppose every event contains:
 
@@ -1110,9 +1090,9 @@ we can store the files in an array.
 
 ```bash
 files=(
-    "$folder/notes.txt"
-    "$folder/registrations.txt"
-    "$folder/budget.txt"
+  "$folder/notes.txt"
+  "$folder/registrations.txt"
+  "$folder/budget.txt"
 )
 ```
 
@@ -1120,13 +1100,13 @@ files=(
 
 ---
 
-# Part 16 — For Loops
+# Experiment 16 — For Loops
 
 Now process every file:
 
 ```bash
 for file in "${files[@]}"; do
-    wc -l "$file"
+  wc -l "$file"
 done
 ```
 
@@ -1134,25 +1114,23 @@ The loop means:
 
 ```text
 Take each file
-     ↓
+  ↓
 store it in $file
-     ↓
+  ↓
 run wc -l
-     ↓
+  ↓
 move to next file
 ```
 
-The lecture uses this exact array-and-loop pattern to process multiple files.
-
 ---
 
-# Task 16
+## Task 16
 
 Give `campus-day` all three files, with this exact content:
 
 ```bash
-printf 'Venue: main hall\nStart: 10:00\n'             > campus-day/notes.txt
-printf 'Asha\nBilal\nChen\n'                          > campus-day/registrations.txt
+printf 'Venue: main hall\nStart: 10:00\n' > campus-day/notes.txt
+printf 'Asha\nBilal\nChen\n' > campus-day/registrations.txt
 printf 'Stage: 5000\nFood: 8000\nPrint: 1200\nMisc: 800\n' > campus-day/budget.txt
 ```
 
@@ -1166,7 +1144,7 @@ budget.txt
 
 using an array and loop. Keep the first line `ls "$folder" > handover.txt`, and replace the single `wc -l ... >> handover.txt` line with the loop, appending each `wc -l "$file"` to `handover.txt`.
 
-### ✅ Check 16 — Arrays and loops
+### Check 16 — Arrays and loops
 
 Hints:
 
@@ -1191,7 +1169,7 @@ registrations.txt
 
 ---
 
-# Part 17 — Build the Complete Automation Script
+# Experiment 17 — Build the Complete Automation Script
 
 Now combine everything.
 
@@ -1272,15 +1250,12 @@ The report should contain:
 ```text
 EVENT HANDOVER REPORT
 =====================
-
 Event: campus-day
-
 FILES
 -----
 notes.txt
 registrations.txt
 budget.txt
-
 COUNTS
 ------
 notes.txt: ...
@@ -1311,22 +1286,22 @@ The script should return:
 1 → failure
 ```
 
-### ✅ Check 17 — Complete automation script
+### Check 17 — Complete automation script
 
 Hints:
 
 - Make an incomplete event folder `draft-day` with an empty `notes.txt` and `budget.txt`. Leave out `registrations.txt` on purpose.
 - Run the failure cases first and the success case last, saving the error stream and the exit status of each run, as in Check 14:
 
-| Run          | Error stream            | Exit status                |
+| Run | Error stream | Exit status |
 | ------------ | ----------------------- | -------------------------- |
-| no argument  | `evidence/17-noarg.err` | `evidence/17-noarg.status` |
-| `draft-day`  | `evidence/17-draft.err` | `evidence/17-draft.status` |
-| `campus-day` | (leave on screen)       | `evidence/17-ok.status`    |
+| no argument | `evidence/17-noarg.err` | `evidence/17-noarg.status` |
+| `draft-day` | `evidence/17-draft.err` | `evidence/17-draft.status` |
+| `campus-day` | (leave on screen) | `evidence/17-ok.status` |
 
 - Finally, snapshot `report.sh` and `handover.txt` as `evidence/17-report.sh` and `evidence/17-handover.txt`.
 
-> Tip: `wc -l < "$folder/$name"` prints just the number, without the filename.
+> **Tip:** `wc -l < "$folder/$name"` prints just the number, without the filename.
 
 `check_lab` verifies:
 
@@ -1338,15 +1313,12 @@ Hints:
 ```text
 EVENT HANDOVER REPORT
 =====================
-
 Event: campus-day
-
 FILES
 -----
 notes.txt
 registrations.txt
 budget.txt
-
 COUNTS
 ------
 notes.txt: 2
@@ -1356,7 +1328,7 @@ budget.txt: 4
 
 ---
 
-# FINAL CHALLENGE LAB
+# Final Challenge
 
 ## Production Handover System
 
@@ -1676,36 +1648,36 @@ Exit status:
 
 ---
 
-### ✅ Check — Final challenge
+### Check — Final challenge
 
 Hints:
 
 - Create the folder `evidence/challenge`, and start from a clean log (remove any old `errors.log`).
 - Run every test case **in this order**. For each one, send the error stream to `tN.err` and save the exit status in `tN.status`, all inside `evidence/challenge/`. After tests 1 and 2, copy `handover.txt` to `tN-handover.txt` before the next run overwrites it.
 
-| Test | Argument                  | Save                                      |
+| Test | Argument | Save |
 | ---- | ------------------------- | ----------------------------------------- |
-| t1   | `events/campus-day`       | `t1.err`, `t1.status`, `t1-handover.txt`  |
-| t2   | `events/sports-day`       | `t2.err`, `t2.status`, `t2-handover.txt`  |
-| t3   | no argument               | `t3.err`, `t3.status`                     |
-| t4   | `events/missing-event`    | `t4.err`, `t4.status`                     |
-| t5   | `events/incomplete-event` | `t5.err`, `t5.status`                     |
-| t6   | `events/tech-fest`        | `t6.status` only (leave errors on screen) |
+| t1 | `events/campus-day` | `t1.err`, `t1.status`, `t1-handover.txt` |
+| t2 | `events/sports-day` | `t2.err`, `t2.status`, `t2-handover.txt` |
+| t3 | no argument | `t3.err`, `t3.status` |
+| t4 | `events/missing-event` | `t4.err`, `t4.status` |
+| t5 | `events/incomplete-event` | `t5.err`, `t5.status` |
+| t6 | `events/tech-fest` | `t6.status` only (leave errors on screen) |
 
 - The last run leaves `handover.txt` for `tech-fest` in your lab folder. Leave it there.
 
 `check_lab` verifies:
 
-| Area         | What is checked                                                                                                                                                                                                                                                              |
+| Area | What is checked |
 | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Script       | `handover.sh` is executable (made with `chmod +x`), starts with `#!/usr/bin/env bash`, uses `$1`, an array, a `for ... in "${array[@]}"` loop, `wc -l`, a file test (`-f` or `-e`), `>&2` and `exit 1`. It does **not** hard-code `campus-day`, `sports-day` or `tech-fest`. |
-| Starter data | Every file in `events/campus-day`, `events/sports-day` and `events/tech-fest` is unchanged.                                                                                                                                                                                  |
-| Test 1, 2, 6 | Status files are `0`; `t1.err` and `t2.err` are empty.                                                                                                                                                                                                                       |
-| Test 3, 4    | Status files are `1`; `t3.err` and `t4.err` are not empty.                                                                                                                                                                                                                   |
-| Test 5       | `events/incomplete-event/` has `notes.txt` and `budget.txt` but no `registrations.txt`; `t5.status` is `1`; `t5.err` mentions `registrations.txt`.                                                                                                                           |
-| Reports      | `t1-handover.txt`, `t2-handover.txt` and `handover.txt` each name their own event (`campus-day`, `sports-day`, `tech-fest`), list all three files, and show the correct line count on the same line as each filename.                                                        |
-| Logging      | `errors.log` exists and records the errors from tests 3–5, including the missing `registrations.txt`.                                                                                                                                                                        |
-| Bonus        | `handover.txt` has a line starting with `Generated: ` (2 bonus points; the other checks add up to 98).                                                                                                                                                                       |
+| Script | `handover.sh` is executable (made with `chmod +x`), starts with `#!/usr/bin/env bash`, uses `$1`, an array, a `for ... in "${array[@]}"` loop, `wc -l`, a file test (`-f` or `-e`), `>&2` and `exit 1`. It does **not** hard-code `campus-day`, `sports-day` or `tech-fest`. |
+| Starter data | Every file in `events/campus-day`, `events/sports-day` and `events/tech-fest` is unchanged. |
+| Test 1, 2, 6 | Status files are `0`; `t1.err` and `t2.err` are empty. |
+| Test 3, 4 | Status files are `1`; `t3.err` and `t4.err` are not empty. |
+| Test 5 | `events/incomplete-event/` has `notes.txt` and `budget.txt` but no `registrations.txt`; `t5.status` is `1`; `t5.err` mentions `registrations.txt`. |
+| Reports | `t1-handover.txt`, `t2-handover.txt` and `handover.txt` each name their own event (`campus-day`, `sports-day`, `tech-fest`), list all three files, and show the correct line count on the same line as each filename. |
+| Logging | `errors.log` exists and records the errors from tests 3–5, including the missing `registrations.txt`. |
+| Bonus | `handover.txt` has a line starting with `Generated: ` (2 bonus points; the other checks add up to 98). |
 
 ---
 
@@ -1849,26 +1821,26 @@ The goal is to learn how to turn a sequence of manual terminal operations into a
 
 Given a repetitive terminal task, you should now be able to ask:
 
-> "Can I automate this?"
+> *"Can I automate this?"*
 
 And then think in terms of:
 
 ```text
 Variables
-    ↓
+  ↓
 Inputs
-    ↓
+  ↓
 Commands
-    ↓
+  ↓
 Exit Status
-    ↓
+  ↓
 Conditions
-    ↓
+  ↓
 Output/Error Handling
-    ↓
+  ↓
 Loops
-    ↓
+  ↓
 Script
 ```
 
-**Congratulations — you have built your first Bash automation workflow! **
+**Congratulations — you have built your first Bash automation workflow!**
