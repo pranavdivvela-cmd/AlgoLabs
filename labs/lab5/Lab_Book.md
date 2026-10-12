@@ -91,12 +91,6 @@ chmod 600 access/ssh_key                      # Linux / macOS: SSH refuses a key
 ssh -i access/ssh_key studentNN@98.70.53.61
 ```
 
-On Windows (PowerShell), protect the key with this instead of `chmod`, then run the same `ssh` command:
-
-```powershell
-icacls access\ssh_key /inheritance:r /grant:r "$($env:USERNAME):R"
-```
-
 The first time, SSH shows the server's fingerprint and asks whether to continue. Type `yes` only if it matches the fingerprint in your access ZIP's `README.md`.
 
 You are connected when the prompt shows `studentNN@students-lab`. Type `exit` to disconnect. Everything below is typed **on the server**.
@@ -1406,25 +1400,7 @@ You are now given a real-world task.
 
 Your manager wants you to build a reusable **Event Handover System**.
 
-You are given:
-
-```text
-events/
-├── campus-day/
-│   ├── notes.txt
-│   ├── registrations.txt
-│   └── budget.txt
-│
-├── sports-day/
-│   ├── notes.txt
-│   ├── registrations.txt
-│   └── budget.txt
-│
-└── tech-fest/
-    ├── notes.txt
-    ├── registrations.txt
-    └── budget.txt
-```
+You are given the `events/` folder shown in the [Lab Scenario](#lab-scenario).
 
 This `events/` folder is already in your lab folder (`~/lab-work/lab5/events`). Do not edit the files inside it; `check_lab` checks that they are unchanged and compares your report against their real line counts.
 
@@ -1749,40 +1725,6 @@ Hints:
 | Logging      | `errors.log` exists and records the errors from tests 3–5, including the missing `registrations.txt`.                                                                                                                                                                        |
 | Bonus        | `handover.txt` has a line starting with `Generated: ` (2 bonus points; the other checks add up to 98).                                                                                                                                                                       |
 
----
-
-# Submission Checklist
-
-Before considering the lab complete, verify:
-
-- [ ] I can create Bash variables.
-- [ ] I understand `$variable`.
-- [ ] I understand why quotes matter.
-- [ ] I understand `$PATH`.
-- [ ] I can use `command -v`.
-- [ ] I understand exit status.
-- [ ] I can use `$?`.
-- [ ] I understand `&&`.
-- [ ] I understand `||`.
-- [ ] I understand stdout.
-- [ ] I understand stderr.
-- [ ] I can redirect stdout.
-- [ ] I can redirect stderr.
-- [ ] I understand `2>&1`.
-- [ ] I can create a Bash script.
-- [ ] I can make a script executable.
-- [ ] I can pass `$1`.
-- [ ] I can validate directories.
-- [ ] I can validate files.
-- [ ] I can use arrays.
-- [ ] I can use loops.
-- [ ] I can handle errors.
-- [ ] I completed the final challenge.
-- [ ] I saved every evidence file under `evidence/` as described in the ✅ Check boxes.
-- [ ] `check_lab lab5` shows PASS for every check.
-
----
-
 # Reflection Questions
 
 Answer these after completing the lab.
@@ -1850,67 +1792,5 @@ Why are arrays and loops useful?
 ### Q12
 
 What makes your final script reusable?
-
----
-
-# Key Takeaways
-
-At the beginning of this lab, you manually executed commands:
-
-```bash
-ls
-wc
-cat
-```
-
-By the end, you should be able to build an automated workflow:
-
-```text
-Input
-  ↓
-Validate
-  ↓
-Process
-  ↓
-Handle errors
-  ↓
-Generate output
-  ↓
-Return status
-```
-
-This is one of the fundamental ideas behind shell automation.
-
-The goal is not simply to memorize Bash commands.
-
-The goal is to learn how to turn a sequence of manual terminal operations into a **reliable, reusable automation workflow**.
-
----
-
-# What You Should Be Able to Do After This Lab
-
-Given a repetitive terminal task, you should now be able to ask:
-
-> _"Can I automate this?"_
-
-And then think in terms of:
-
-```text
-Variables
-  ↓
-Inputs
-  ↓
-Commands
-  ↓
-Exit Status
-  ↓
-Conditions
-  ↓
-Output/Error Handling
-  ↓
-Loops
-  ↓
-Script
-```
 
 **Congratulations — you have built your first Bash automation workflow!**
