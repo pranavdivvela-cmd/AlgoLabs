@@ -20,35 +20,48 @@ Your access ZIP comes from your instructor's email, for example `Lab_4_student07
 
 ## Lab 5: connect directly with your key
 
-Lab 5 needs no Codespace. You need a terminal with `ssh`: **Terminal** on Mac/Linux, **PowerShell** on Windows 10/11.
+Lab 5 needs no Codespace, just a terminal on your own computer: **PowerShell** on Windows 10/11, **Terminal** on Mac or Linux.
 
-1. **Unzip your access ZIP** and open your terminal in the unzipped folder (for example `Lab_4_student07_Access`).
-2. **Protect your key** (once). SSH refuses a private key that other users can read.
+> **Your private key is a file:** `access/ssh_key` inside your access ZIP. You give SSH the file's **location** with `-i`. Do **not** open the key and paste its text into the terminal: that fails and exposes your key.
 
-   ```bash
-   chmod 600 access/ssh_key                                                  # Mac / Linux
-   ```
+**1. Unzip your access ZIP.** You get a folder such as `Lab_4_student07_Access` that contains `README.md` and an `access` folder with your key `ssh_key`.
 
-   ```powershell
-   icacls access\ssh_key /inheritance:r /grant:r "$($env:USERNAME):R"      # Windows PowerShell
-   ```
+**2. Open a terminal inside that folder.**
 
-3. **Log in** (replace `studentNN` with your account, shown in the ZIP's `README.md`):
+- **Windows:** open the folder in File Explorer, click the address bar, type `powershell`, press Enter.
+- **Mac:** open Terminal, type `cd ` (with a space), drag the folder into the window, press Enter.
+- **Linux:** right-click the folder and choose **Open in Terminal**.
 
-   ```bash
-   ssh -i access/ssh_key studentNN@98.70.53.61
-   ```
+Check that you are in the right place: `ls access` must list `ssh_key`.
 
-   The first time, SSH shows the server's fingerprint and asks whether to continue. Type `yes` only if it matches the fingerprint in your ZIP's `README.md`.
+**3. Protect your key** (first time only). SSH refuses a key that other users of your computer can read.
 
-4. **Do the lab on the server:**
+```powershell
+icacls access\ssh_key /inheritance:r /grant:r "$($env:USERNAME):R"      # Windows PowerShell
+```
 
-   ```bash
-   cd ~/lab-work/lab5          # your Lab 5 folder: sample data and README.md are here
-   check_lab lab5              # see your score at any time
-   ```
+```bash
+chmod 600 access/ssh_key                                                  # Mac / Linux
+```
 
-Follow [labs/lab5/Lab_Book.md](labs/lab5/Lab_Book.md). The same instructions are also in `README.md` in your server folder. Each part ends with a **✅ Check** box that tells you which evidence files to save. Type `exit` to disconnect; your files stay on the server. Next time, repeat step 3 only.
+**4. Connect.** Replace `studentNN` with your account (it is in your ZIP's `README.md`, which also has this exact command):
+
+```bash
+ssh -i access/ssh_key studentNN@98.70.53.61
+```
+
+The first time, SSH asks `Are you sure you want to continue connecting?`. Type `yes` only if the fingerprint shown matches the one in your ZIP's `README.md`. You are connected when the prompt shows `studentNN@students-lab:~$`.
+
+**5. Do the lab on the server:**
+
+```bash
+cd ~/lab-work/lab5          # your Lab 5 folder: sample data and README.md are here
+check_lab lab5              # see your score at any time
+```
+
+Follow [labs/lab5/Lab_Book.md](labs/lab5/Lab_Book.md). The same instructions are also in `README.md` in your server folder. Each part ends with a **✅ Check** box that tells you which evidence files to save. Type `exit` to disconnect; your files stay on the server.
+
+**Next time:** open a terminal in the same folder (step 2) and run the step 4 command.
 
 ---
 
@@ -136,8 +149,9 @@ check_lab           # in the Lab 4 Codespace terminal: checks the lab it was ope
 
 | Problem | What to do |
 |---|---|
-| `UNPROTECTED PRIVATE KEY FILE` or `bad permissions` (Lab 5) | Protect the key with `chmod 600` or `icacls` (step 2 of Lab 5), then log in again. |
-| `Identity file access/ssh_key not accessible` (Lab 5) | Your terminal is not in the unzipped folder. `cd` into it, or give the full path after `-i`. |
+| `UNPROTECTED PRIVATE KEY FILE` or `bad permissions` (Lab 5) | Protect the key with `chmod 600` or `icacls` (step 3 of Lab 5), then log in again. |
+| `Identity file access/ssh_key not accessible` (Lab 5) | Your terminal is not in the unzipped folder: redo step 2, or give the key's full path, e.g. `ssh -i ~/Downloads/Lab_4_student07_Access/access/ssh_key student07@98.70.53.61`. |
+| `Identity file b3BlbnNzaC1rZXkt… not accessible` (or `-----BEGIN…`), or bash says `command not found` for lines of letters (Lab 5) | You pasted the key's **text**. Use the file path `access/ssh_key` instead, and tell your instructor so they can give you a new key. |
 | `REMOTE HOST IDENTIFICATION HAS CHANGED` | Stop. Do not type `yes` or delete anything. Send the exact message to your instructor. |
 | `No access ZIP found` (Lab 4) | Upload your ZIP into `.uploads` (keep it zipped), then run the start command again. |
 | `More than one access ZIP` or `different access` | Keep only **your own** ZIP in `.uploads`. If you uploaded someone else's, ask your instructor. |
