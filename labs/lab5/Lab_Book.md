@@ -1378,7 +1378,7 @@ Hints:
 - `evidence/17-noarg.status` and `evidence/17-draft.status` are `1`; `evidence/17-ok.status` is `0`.
 - `evidence/17-draft.err` contains `Missing file: registrations.txt`, and does **not** mention `notes.txt` or `budget.txt`.
 - `evidence/17-report.sh` uses `$1`, `-d`, an array, a `for ... in "${array[@]}"` loop, `>&2` and `exit 1`.
-- `evidence/17-handover.txt` matches this exactly (extra spaces at line ends are ignored):
+- `evidence/17-handover.txt` matches this exactly (blank lines and extra spaces at the start or end of a line are ignored):
 
 ```text
 EVENT HANDOVER REPORT
