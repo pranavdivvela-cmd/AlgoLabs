@@ -84,12 +84,16 @@ Instead of repeating commands manually, we will build a **reusable Bash automati
 
 All work happens on the lab server. You log in with the **private key** from your access ZIP (`access/ssh_key`). Keep it secret: anyone with this file can log in as you.
 
-Unzip your access ZIP, open a terminal in the unzipped folder, then run (replace `studentNN` with your account):
+Work in the terminal of your **GitHub Codespace**. Upload your access ZIP into the `.uploads` folder (right-click it in the Explorer, then **Upload…**), then run (replace `studentNN` with your account):
 
 ```bash
-chmod 600 access/ssh_key                      # Linux / macOS: SSH refuses a key others can read
+unzip -o .uploads/Lab_4_studentNN_Access.zip -d ~
+cd ~/Lab_4_studentNN_Access
+chmod 600 access/ssh_key                      # SSH refuses a key others can read
 ssh -i access/ssh_key studentNN@98.70.53.61
 ```
+
+The repository's `README.md` explains each step in more detail.
 
 The first time, SSH shows the server's fingerprint and asks whether to continue. Type `yes` only if it matches the fingerprint in your access ZIP's `README.md`.
 
