@@ -80,6 +80,29 @@ Instead of repeating commands manually, we will build a **reusable Bash automati
 
 # Getting Started
 
+## 0. Connect to the lab server
+
+All work happens on the lab server. You log in with the **private key** from your access ZIP (`access/ssh_key`). Keep it secret: anyone with this file can log in as you.
+
+Unzip your access ZIP, open a terminal in the unzipped folder, then run (replace `studentNN` with your account):
+
+```bash
+chmod 600 access/ssh_key                      # Linux / macOS: SSH refuses a key others can read
+ssh -i access/ssh_key studentNN@98.70.53.61
+```
+
+On Windows (PowerShell), protect the key with this instead of `chmod`, then run the same `ssh` command:
+
+```powershell
+icacls access\ssh_key /inheritance:r /grant:r "$($env:USERNAME):R"
+```
+
+The first time, SSH shows the server's fingerprint and asks whether to continue. Type `yes` only if it matches the fingerprint in your access ZIP's `README.md`.
+
+You are connected when the prompt shows `studentNN@students-lab`. Type `exit` to disconnect. Everything below is typed **on the server**.
+
+---
+
 ## 1. Check Bash
 
 Run:
@@ -752,7 +775,7 @@ Observe the output.
 
 Ask yourself:
 
-> *Which output is normal output and which is an error?*
+> _Which output is normal output and which is an error?_
 
 ### Check 8 — stdout and stderr
 
@@ -1293,11 +1316,11 @@ Hints:
 - Make an incomplete event folder `draft-day` with an empty `notes.txt` and `budget.txt`. Leave out `registrations.txt` on purpose.
 - Run the failure cases first and the success case last, saving the error stream and the exit status of each run, as in Check 14:
 
-| Run | Error stream | Exit status |
+| Run          | Error stream            | Exit status                |
 | ------------ | ----------------------- | -------------------------- |
-| no argument | `evidence/17-noarg.err` | `evidence/17-noarg.status` |
-| `draft-day` | `evidence/17-draft.err` | `evidence/17-draft.status` |
-| `campus-day` | (leave on screen) | `evidence/17-ok.status` |
+| no argument  | `evidence/17-noarg.err` | `evidence/17-noarg.status` |
+| `draft-day`  | `evidence/17-draft.err` | `evidence/17-draft.status` |
+| `campus-day` | (leave on screen)       | `evidence/17-ok.status`    |
 
 - Finally, snapshot `report.sh` and `handover.txt` as `evidence/17-report.sh` and `evidence/17-handover.txt`.
 
@@ -1655,29 +1678,29 @@ Hints:
 - Create the folder `evidence/challenge`, and start from a clean log (remove any old `errors.log`).
 - Run every test case **in this order**. For each one, send the error stream to `tN.err` and save the exit status in `tN.status`, all inside `evidence/challenge/`. After tests 1 and 2, copy `handover.txt` to `tN-handover.txt` before the next run overwrites it.
 
-| Test | Argument | Save |
+| Test | Argument                  | Save                                      |
 | ---- | ------------------------- | ----------------------------------------- |
-| t1 | `events/campus-day` | `t1.err`, `t1.status`, `t1-handover.txt` |
-| t2 | `events/sports-day` | `t2.err`, `t2.status`, `t2-handover.txt` |
-| t3 | no argument | `t3.err`, `t3.status` |
-| t4 | `events/missing-event` | `t4.err`, `t4.status` |
-| t5 | `events/incomplete-event` | `t5.err`, `t5.status` |
-| t6 | `events/tech-fest` | `t6.status` only (leave errors on screen) |
+| t1   | `events/campus-day`       | `t1.err`, `t1.status`, `t1-handover.txt`  |
+| t2   | `events/sports-day`       | `t2.err`, `t2.status`, `t2-handover.txt`  |
+| t3   | no argument               | `t3.err`, `t3.status`                     |
+| t4   | `events/missing-event`    | `t4.err`, `t4.status`                     |
+| t5   | `events/incomplete-event` | `t5.err`, `t5.status`                     |
+| t6   | `events/tech-fest`        | `t6.status` only (leave errors on screen) |
 
 - The last run leaves `handover.txt` for `tech-fest` in your lab folder. Leave it there.
 
 `check_lab` verifies:
 
-| Area | What is checked |
+| Area         | What is checked                                                                                                                                                                                                                                                              |
 | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Script | `handover.sh` is executable (made with `chmod +x`), starts with `#!/usr/bin/env bash`, uses `$1`, an array, a `for ... in "${array[@]}"` loop, `wc -l`, a file test (`-f` or `-e`), `>&2` and `exit 1`. It does **not** hard-code `campus-day`, `sports-day` or `tech-fest`. |
-| Starter data | Every file in `events/campus-day`, `events/sports-day` and `events/tech-fest` is unchanged. |
-| Test 1, 2, 6 | Status files are `0`; `t1.err` and `t2.err` are empty. |
-| Test 3, 4 | Status files are `1`; `t3.err` and `t4.err` are not empty. |
-| Test 5 | `events/incomplete-event/` has `notes.txt` and `budget.txt` but no `registrations.txt`; `t5.status` is `1`; `t5.err` mentions `registrations.txt`. |
-| Reports | `t1-handover.txt`, `t2-handover.txt` and `handover.txt` each name their own event (`campus-day`, `sports-day`, `tech-fest`), list all three files, and show the correct line count on the same line as each filename. |
-| Logging | `errors.log` exists and records the errors from tests 3–5, including the missing `registrations.txt`. |
-| Bonus | `handover.txt` has a line starting with `Generated: ` (2 bonus points; the other checks add up to 98). |
+| Script       | `handover.sh` is executable (made with `chmod +x`), starts with `#!/usr/bin/env bash`, uses `$1`, an array, a `for ... in "${array[@]}"` loop, `wc -l`, a file test (`-f` or `-e`), `>&2` and `exit 1`. It does **not** hard-code `campus-day`, `sports-day` or `tech-fest`. |
+| Starter data | Every file in `events/campus-day`, `events/sports-day` and `events/tech-fest` is unchanged.                                                                                                                                                                                  |
+| Test 1, 2, 6 | Status files are `0`; `t1.err` and `t2.err` are empty.                                                                                                                                                                                                                       |
+| Test 3, 4    | Status files are `1`; `t3.err` and `t4.err` are not empty.                                                                                                                                                                                                                   |
+| Test 5       | `events/incomplete-event/` has `notes.txt` and `budget.txt` but no `registrations.txt`; `t5.status` is `1`; `t5.err` mentions `registrations.txt`.                                                                                                                           |
+| Reports      | `t1-handover.txt`, `t2-handover.txt` and `handover.txt` each name their own event (`campus-day`, `sports-day`, `tech-fest`), list all three files, and show the correct line count on the same line as each filename.                                                        |
+| Logging      | `errors.log` exists and records the errors from tests 3–5, including the missing `registrations.txt`.                                                                                                                                                                        |
+| Bonus        | `handover.txt` has a line starting with `Generated: ` (2 bonus points; the other checks add up to 98).                                                                                                                                                                       |
 
 ---
 
@@ -1821,7 +1844,7 @@ The goal is to learn how to turn a sequence of manual terminal operations into a
 
 Given a repetitive terminal task, you should now be able to ask:
 
-> *"Can I automate this?"*
+> _"Can I automate this?"_
 
 And then think in terms of:
 
