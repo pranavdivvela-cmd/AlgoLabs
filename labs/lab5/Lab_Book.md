@@ -1286,6 +1286,53 @@ registrations.txt: ...
 budget.txt: ...
 ```
 
+#### Writing many lines to one file with `{ }`
+
+The report has many lines. You could add `>> handover.txt` to every `echo`, but it is easy to forget one, or to use `>>` where you needed `>`.
+
+Instead, put the commands in a **group** with `{ }` and redirect the whole group **once**:
+
+```bash
+name="Asha"
+{
+  echo "GREETING"
+  echo "--------"
+  echo "Hello, $name"
+} > greeting.txt
+```
+
+```bash
+cat greeting.txt
+```
+
+```text
+GREETING
+--------
+Hello, Asha
+```
+
+Everything printed inside `{ ... }` goes into `greeting.txt`, and the `>` at the end empties the file first. That means running the script again gives the same file, not a doubled one.
+
+A loop works inside the group too:
+
+```bash
+{
+  echo "ITEMS"
+  for item in pen book bag; do
+    echo "item: $item"
+  done
+} > items.txt
+```
+
+Rules to remember:
+
+- Put a **space** after `{`.
+- Put `}` on its **own line** (or after a `;`).
+- Write the redirection **after** `}`: `} > file`.
+- An error message inside the group still needs `>&2` so that it goes to the screen (stderr), not into the file.
+
+> `{ }` here is not the same as the braces in `"${files[@]}"`. Those belong to the variable; these group commands.
+
 ---
 
 ### 5. Use an array
