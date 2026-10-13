@@ -1016,6 +1016,32 @@ The first argument supplied to the script is available through:
 $1
 ```
 
+Bash gives every argument its own number, and also counts them:
+
+```text
+$1   first argument
+$2   second argument (and $3, $4, ... for the next ones)
+$#   how many arguments were given
+```
+
+Try it with a small test script, `args.sh`:
+
+```bash
+#!/usr/bin/env bash
+echo "First:  $1"
+echo "Second: $2"
+echo "Count:  $#"
+```
+
+```bash
+chmod +x args.sh
+./args.sh campus-day sports-day
+./args.sh campus-day
+./args.sh
+```
+
+A missing argument is simply empty, and `$#` tells you how many the user actually gave. Experiment 14 uses this idea to reject bad input.
+
 ### Check 13 — Script arguments
 
 Hints:
