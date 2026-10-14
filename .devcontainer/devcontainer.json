@@ -13,5 +13,5 @@
       }
     }
   },
-  "postCreateCommand": "bash scripts/verify_environment.sh"
+  "postCreateCommand": "mkdir -p .uploads && bash scripts/verify_environment.sh"
 }
