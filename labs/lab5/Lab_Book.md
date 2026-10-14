@@ -84,7 +84,7 @@ Instead of repeating commands manually, we will build a **reusable Bash automati
 
 All work happens on the lab server. You log in with the **private key** from your access ZIP (`access/ssh_key`). Keep it secret: anyone with this file can log in as you.
 
-Work in the terminal of your **GitHub Codespace**. Upload your access ZIP into the `.uploads` folder (right-click it in the Explorer, then **Upload…**), then run (replace `studentNN` with your account):
+Work in the terminal of your **GitHub Codespace**: **[Open AlgoLabs in a Codespace](https://codespaces.new/xDarkPhoneix/AlgoLabs?quickstart=1)** (choose **Resume this codespace** if you already have one). Upload your access ZIP into the `.uploads` folder (right-click it in the Explorer, then **Upload…**), then run (replace `studentNN` with your account):
 
 ```bash
 unzip -o .uploads/Lab_4_studentNN_Access.zip -d ~
