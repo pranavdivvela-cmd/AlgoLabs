@@ -1,7 +1,6 @@
 # Lab 7: Introduction to Git
 
-**Maximum Marks:** 100  
-**Environment:** the class lab server, reached from the terminal of your GitHub Codespace. Your account is `studentNN` and your roll number is `RollNo`: replace them with your own account (in your ZIP's name, e.g. `student07`) and roll number (e.g. `2026001`) everywhere below.
+**Environment:** the class lab server, reached from the terminal of your GitHub Codespace. Your account is `studentNNN` and your roll number is `RollNo`: replace them with your own account (in your ZIP's name, e.g. `student07`) and roll number (e.g. `2026001`) everywhere below.
 
 ## Objective
 
@@ -23,7 +22,7 @@ By the end of the lab, you should be able to:
 
 ## Setup: connect to the lab server
 
-This is the same as in Lab 5 and Lab Test 1. The repository's `README.md` explains each step in more detail. Your access ZIP (`Lab_4_studentNN_Access.zip`) is the one from your instructor's email; the same ZIP works for every lab.
+This is the same as in Lab 5 and Lab Test 1. The repository's `README.md` explains each step in more detail. Your access ZIP (`Lab_4_studentNNN_Access.zip`) is the one from your instructor's email; the same ZIP works for every lab.
 
 1. Open your Codespace from the AlgoLabs repository (**Code → Codespaces**, or the link in the repository's `README.md`). Wait until a terminal appears at the bottom; if there is none, use **Terminal → New Terminal**.
 2. If `~/Lab_4_studentNN_Access` does not exist yet in this Codespace, upload your ZIP into the `.uploads` folder (right-click it in the Explorer, **Upload…**) and unzip it:
@@ -48,37 +47,6 @@ This is the same as in Lab 5 and Lab Test 1. The repository's `README.md` explai
    ```
 
 > **Work on the server, not in the Codespace.** The Codespace also has Git, so commands will "work" there too, but only `~/lab-work/lab7` **on the server** is graded. Always check that your prompt shows `studentNN@students-lab`.
-
----
-
-## How this lab is graded
-
-You create **two** repositories inside `~/lab-work/lab7`:
-
-```text
-~/lab-work/lab7/
-├── README.md        (these instructions)
-├── git-lab/         Experiments 1–8
-└── quickcart/       Experiment 9 (the final challenge)
-```
-
-`check_lab lab7` reads the history of both repositories: the commits, their messages and file contents, the **reflog** (Git's record of where `HEAD` has been, including resets) and the staging area. It does **not** see your terminal history, so:
-
-- Use the **exact** folder names, file names, file contents and commit messages given in a task. Where a task lets you choose (for example, your own notes), any sensible text is fine.
-- Commit with the identity from the Prerequisites below. Commits made with another e-mail address do not count.
-- Do the experiments **in order** and do not skip the `reset`/`revert` steps: the grader checks that they happened.
-- Do not run `git gc` (or `git repack`) in these repositories: the grader reads Git's individual object files and cannot read packed ones.
-- Each experiment ends with a **✅ Check** box saying what `check_lab` looks for. The **Questions** are for your own understanding and your viva; they are not graded by `check_lab`.
-
-| Experiment | Topic                                         | Marks   |
-| ---------- | --------------------------------------------- | ------- |
-| 1–4        | Repository, tracking, first commit, `diff`    | 10      |
-| 5–7        | Multiple commits, history, `restore`          | 10      |
-| 8          | `git reset` and `git revert`                  | 20      |
-| 9          | Final challenge: the Friday Night Incident    | 45      |
-| All        | Clean working trees                           | 5       |
-| All        | Commits use your lab identity                 | 10      |
-|            | **Total**                                     | **100** |
 
 > **If you get stuck** with a repository in a bad state, you can start that repository again: `cd ~/lab-work/lab7 && rm -rf git-lab` (or `quickcart`) and redo its experiments. Nothing else is affected.
 
@@ -282,11 +250,11 @@ Do **not** commit yet: you will commit this change in Experiment 5.
 3. What does `git diff --staged` show?
 4. In your own words, what is the difference between the **working tree**, the **staging area** and the **repository**?
 
-| Command             | Compares                                  |
-| :------------------ | :---------------------------------------- |
-| `git diff`          | working tree ↔ staging area               |
-| `git diff --staged` | staging area ↔ last commit (`HEAD`)       |
-| `git diff HEAD`     | working tree ↔ last commit (`HEAD`)       |
+| Command             | Compares                            |
+| :------------------ | :---------------------------------- |
+| `git diff`          | working tree ↔ staging area         |
+| `git diff --staged` | staging area ↔ last commit (`HEAD`) |
+| `git diff HEAD`     | working tree ↔ last commit (`HEAD`) |
 
 > ✅ **Check:** the committed `notes.txt` must end up with at least five non-empty lines (after Experiment 5).
 
@@ -408,7 +376,7 @@ git status
 1. What does `git restore <file>` do to unstaged modifications in the working tree? Can you get them back?
 2. What is the difference between `git restore <file>` and `git restore --staged <file>`?
 
-> ✅ **Check:** at the end of the lab, both repositories have nothing staged and no modified tracked files (`git status` says *working tree clean*).
+> ✅ **Check:** at the end of the lab, both repositories have nothing staged and no modified tracked files (`git status` says _working tree clean_).
 
 ---
 
@@ -546,7 +514,7 @@ git revert --abort
 4. On a shared team branch, why is `git revert` preferred over `git reset`?
 5. Which command aborts a `git revert` that stopped with a conflict?
 
-> ✅ **Check (Part A):** the reflog shows at least three resets and your two commits *after soft reset* and *after mixed reset*; no commit starting with `Practice commit` is left in the history, and `notes.txt` no longer contains `Reset practice line`.
+> ✅ **Check (Part A):** the reflog shows at least three resets and your two commits _after soft reset_ and _after mixed reset_; no commit starting with `Practice commit` is left in the history, and `notes.txt` no longer contains `Reset practice line`.
 >
 > ✅ **Check (Part B):** the history contains `Add temporary feature` directly followed by its revert commit made by `git revert` (`Revert "Add temporary feature"`), and `notes.txt` no longer contains `Temporary feature line`.
 
@@ -976,24 +944,6 @@ Lessons for the team:
 3. Why was `git reset` the wrong choice on Friday but the right choice on Monday?
 4. In Act 6, what would `git status` show if Riya had used `git reset --soft HEAD~1` instead of `--hard`? What about `--mixed`?
 5. Which two commands, run before `git commit` on Friday, could have prevented the whole incident?
-
-> ✅ **Check:** in `quickcart`, `git log --oneline` shows **exactly** these six commits (newest first), each with the `app.txt` content from its act:
->
-> ```text
-> Add user dashboard with widget config
-> Improve login: case-insensitive username and empty-password check
-> Revert "Add user dashboard"
-> Add user dashboard
-> Add logout feature
-> Add login feature
-> ```
->
-> - The revert was made with `git revert` (its message says `This reverts commit …`).
-> - `Add user dashboard (attempt 2)` was committed and then removed with `git reset`: it appears in `git reflog` but **not** in `git log`.
-> - The last commit adds `dashboard.config` and the `dashboard: working` line together.
-> - `git status` reports a clean working tree.
-
----
 
 ## Finish
 
