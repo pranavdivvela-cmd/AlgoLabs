@@ -12,6 +12,7 @@ Your access ZIP comes from your instructor's email, for example `Lab_4_student07
 | ------ | ---------------------------------------------- | ---------------------------------------------------------------------------- |
 | `lab4` | File permissions, SSH and remote file transfer | [labs/lab4/Experiment_Book_4_Draft.md](labs/lab4/Experiment_Book_4_Draft.md) |
 | `lab5` | Bash automation and terminal workflows         | [labs/lab5/Lab_Book.md](labs/lab5/Lab_Book.md)                               |
+| `lab7` | Introduction to Git: commits, reset and revert | [labs/lab7/Lab_Book.md](labs/lab7/Lab_Book.md)                               |
 
 ---
 
@@ -66,10 +67,24 @@ Follow [labs/lab5/Lab_Book.md](labs/lab5/Lab_Book.md). You can keep it open in t
 
 ---
 
+## Lab 7: Introduction to Git
+
+Lab 7 uses the same Codespace, access ZIP and server account as Lab 5. Connect as in [Lab 5: step by step](#lab-5-step-by-step) (or [Coming back later](#coming-back-later)), then, on the server:
+
+```bash
+cd ~/lab-work/lab7          # README.md has the instructions
+check_lab lab7              # 0/100 before you start; check your score any time
+```
+
+Follow [labs/lab7/Lab_Book.md](labs/lab7/Lab_Book.md) (or `README.md` in your server folder, which has your roll number filled in). Set your Git e-mail to `RollNo@algolab.local` **before your first commit**, and run every `git` command on the server, not in the Codespace: only `~/lab-work/lab7` on the server is graded.
+
+---
+
 ## Check your score
 
 ```bash
 check_lab lab5      # on the server: name the lab
+check_lab lab7      # Lab 7: Git
 ```
 
 - Grading runs on the server, and the tests are hidden.
